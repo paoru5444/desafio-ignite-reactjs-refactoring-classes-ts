@@ -10,7 +10,7 @@ import { FoodsModel } from '../../models/FoodsModel';
 
 function Dashboard() {
   const [foods, setFoods] = useState<FoodsModel[]>([])
-  const [editingFood, setEditingFood] = useState<{ id?: number }>({})
+  const [editingFood, setEditingFood] = useState<FoodsModel>({})
   const [modalOpen, setModalOpen] = useState(false)
   const [editModalOpen,setEditModalOpen] = useState(false)
 
@@ -38,7 +38,7 @@ function Dashboard() {
   const handleUpdateFood = async (food: FoodsModel) => {
     try {
       const foodUpdated = await api.put(
-        `/foods/${editingFood.id}`,
+        `/foods/${editingFood?.id}`,
         { ...editingFood, ...food },
       );
 
@@ -52,7 +52,7 @@ function Dashboard() {
     }
   }
 
-  const handleDeleteFood = async (id: number) => {
+  const handleDeleteFood = async (id?: number) => {
     await api.delete(`/foods/${id}`);
     const foodsFiltered = foods.filter(food => food.id !== id);
     setFoods(foodsFiltered)
